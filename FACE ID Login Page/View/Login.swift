@@ -9,23 +9,24 @@ import SwiftUI
 import LocalAuthentication
 //VISTA PRINCIPAL
 struct Login  : View{
+    
     //VARIABLES
     @StateObject var LoginModel = LoginViewModel()
     //ESTOS VIENEN DEL VIEWMODEL
     @AppStorage("stored_User") var Stored_User = ""
     @AppStorage("stored_Password") var Stored_Password = ""
-    
     @AppStorage("status") var logged = false
-    
+    //
     var body: some View{
         VStack{
             Spacer(minLength: 0)
+            //IMAGEN DINAMICA/RESPONSIVA
             Image("logo")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-            //IMAGEN DINAMICA/RESPONSIVA
                 .padding(.horizontal,35)
                 .padding(.vertical)
+            //
             HStack{
                 VStack(alignment: .leading, spacing: 12, content: {
                     Text("Login")
@@ -84,10 +85,9 @@ struct Login  : View{
                 })
                     .opacity(LoginModel.email != "" && LoginModel.password != "" ? 1 : 0.5)
                     .disabled(LoginModel.email != "" && LoginModel.password != "" ? false : true)
-                
+                //OBTENIENDO BIOMETRICTYPE
                 if LoginModel.getBioMetricStatus(){
                     Button(action: LoginModel.authenticateUser, label: {
-                        //OBTENIENDO BIOMETRICTYPE
                         Image(systemName: LAContext().biometryType == .faceID ?  "faced" : "touchid")
                             .font(.title)
                             .foregroundColor(.black)
@@ -96,20 +96,21 @@ struct Login  : View{
                             .clipShape(Circle())
                     })
                 }
+                //
             }
             .padding(.top)
             
             //BOTON RESTABLECER PASSWORD
             Button(action: {}, label: {
                 Text("Olvidaste tus datos?")
-                    .font(.title2)
+                    .font(.title3)
                     .foregroundColor(Color("green"))
             })
                 .padding(.top, 8)
             //
             
             Spacer(minLength: 0)
-            
+            //STACK DE MENSAJE CUENTA NUEVA
             HStack(spacing: 6){
                 Text("Aun no tienes cuenta?")
                     .foregroundColor(Color.white.opacity(0.6))
@@ -120,9 +121,10 @@ struct Login  : View{
                 })
             }
             .padding(.vertical)
+            //
         }
         .background(Color("bg").ignoresSafeArea(.all,edges: .all))
-        .animation(.easeOut)
+        .animation(.easeInOut)
     }
 }
 //
